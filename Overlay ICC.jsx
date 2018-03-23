@@ -19,17 +19,20 @@ for(var i = 0; i < sourceFiles.length;i++){
   var redName = blueName.replace('_b.jpg','_r.jpg');
   var greenName = blueName.replace('_b.jpg', '_g.jpg');
 
-  // second, open the red/anti-Rabbit file as it is more common than the
-  // blue/anti-Mouse Abs.
+  // second, define the filenames of the red/A-rabbit and green/A-mouse files
   var redImage = new File(sourceFolder+'/'+redName);
   var greenImage = new File(sourceFolder+'/'+greenName);
 
-  // check if both exists
+  // third, check the conditions if either or both exist, then apply filtering
+  // overlayering
   if (redImage.exists && greenImage.exists){
     var redImage = open(redImage)
     applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
     var greenImage = open(greenImage)
     applyChannel( charIDToTypeID( "RGB " ) , redImage.name );
+    // If both files exist, then close the red one after it has been
+    // overlaid to the blue one. This way, in the saving function only the
+    // active (i.e. merger and green, and subsequently blue) will be closed
     if (redImage.length != 0){
       redImage.close(SaveOptions.DONOTSAVECHANGES)
     }
@@ -42,28 +45,7 @@ for(var i = 0; i < sourceFiles.length;i++){
       applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
     }
 
-
-  // if (redImage.exists & ){
-  //   var redImage = open(redImage)
-  //   applyChannel( charIDToTypeID( "RGB " ), blueImage.name);
-  // }
-  //
-  // if (redImage.exists){
-  //   var redImage = open(redImage)
-  //   applyChannel( charIDToTypeID( "RGB " ), blueImage.name);
-  // }
-  //
-  // // before checking if green/anti-Mouse file exists, the red file is overlaid
-  // // onto the Hoechst file
-  // applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
-  //
-  // // third, open the green file
-  //
-  // if ((new File(sourceFolder+'/'+greenName).exists)){
-  //   var greenImage = open(new File(sourceFolder+'/'+greenName));
-  //   // the green image is overlaid onto the already overlaid red/blue file
-  //   applyChannel ( charIDToTypeID( "RGB " ), redImage.name);
-  // save the results onto another file called merge and close all
+  // finally, save the results onto another file called merge and close all
   // opened files to conserve memory
   SaveAsTIFF(savedFolder+'/'+blueName.replace(/_b\.jpg$/i,'_merged.tif'),true);
 }
@@ -100,7 +82,4 @@ function SaveAsTIFF( inFileName, inLZW ) {
   if (blueImage.length != 0){
     blueImage.close(SaveOptions.DONOTSAVECHANGES)
   }
-//   if (redImage.length != 0){
-//     redImage.close(SaveOptions.DONOTSAVECHANGES)
-//   }
 };
