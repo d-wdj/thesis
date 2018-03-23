@@ -5,9 +5,9 @@ Här hittar man scripts används.
 
 
 
-#### *in vitro* neural systems lab  
-#### Herland group  
-#### Dept. of Micro- and Nano-systems  
-#### School of Electrical Engineering and Computer Science  
-#### KTH Royal Institute of Technology  
-#### (C) 2018  
+*in vitro* neural systems lab  
+Herland group  
+Dept. of Micro- and Nano-systems  
+School of Electrical Engineering and Computer Science  
+KTH Royal Institute of Technology  
+(C) 2018  
