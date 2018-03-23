@@ -1,14 +1,12 @@
-﻿//~ Adapted from: https://forums.adobe.com/thread/1222258//~
+﻿//~ Adapted from: https://forums.adobe.com/thread/1222258//~
 // make a reference to the savedFolder
 //~ var savedFolder = new Folder('~/Desktop/Merged Image');
 //~
 // create the folder if it doesn't exists
-//~ if(!savedFolder.exists) savedFolder.create();
 // get the source folder from the user and store in variable
-var sourceFolder = Folder.selectDialog();
+var sourceFolder = Folder.selectDialog();
 var savedFolder = new Folder(sourceFolder + '/Merged');
 if(!savedFolder.exists) savedFolder.create();
-// make sure user selected a folder  if(sourceFolder != null){
 // get an array of red images and store in variable
   var sourceFiles = sourceFolder.getFiles("*B5_b.jpg");
   // make a loop to process all found sets.
@@ -25,39 +23,7 @@ if(!savedFolder.exists) savedFolder.create();
       var greenImage = open(new File(sourceFolder+'/'+greenName));
       applyChannel ( charIDToTypeID( "RGB " ), redImage.name);
     SaveAsTIFF(savedFolder+'/'+blueName.replace(/_b\.jpg$/i,'_merged.tif'),true);
-      //~
-    //  var redName = sourceFiles[i].name;
 
-    //~
-    //var redImage = open(sourceFiles[i]);
-    // open the red file and store reference to document
-    //~         var blueName = redName.replace('_r.jpg','_b.jpg');
-    //~         var blueImage = open(new File(sourceFolder+'/'+blueName));
-    // open the green file and store reference that document
-    //~         applyChannel( charIDToTypeID( "RGB " ) , redImage.name );
-    //~         var greenName = redName.replace('_r.jpg', '_g.jpg');
-    //~         if ((new File(sourceFolder+'/'+greenName).exists)){
-    //~             var greenImage = open(new File(sourceFolder+'/'+greenName));
-    //~             applyChannel ( charIDToTypeID( "RGB " ), blueImage.name);}
-    //~             } else {
-    //~                 applyChannel( charIDToTypeID( "RGB " ) , redImage.name );
-    //~                 }
-    //~         var greenImage = new File(sourceFolder+'/'+greenName);
-    //~         if (greenImage.exists){
-      //~             var greenImage = open(greenImage);
-      //~             applyChannel( charIDToTypeID( "Grn " ) , redImage.name );
-      //~            }
-      // else {
-      // applyChannel( charIDToTypeID( "RGB " ) , redImage.name );
-      // }
-      //~        if(File(sourceFolder+'/'+greenName) != null){
-      //~             var greenImage = open(new File(sourceFolder+'/'+greenName));
-      //~             }
-      // now apply redImge using lighten mode
-      //~         applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
-      // save the merged document
-      //~         SaveAsTIFF(savedFolder+'/'+redName.replace(/_r\.jpg$/i,'_merged.tif'),true);
-      // close the open documents for next loop  }  }
 function applyChannel( channelID, documentName ){
   // charIDToTypeID( "RGB " )
   // charIDToTypeID( "Rd  " )
@@ -74,17 +40,18 @@ function applyChannel( channelID, documentName ){
   channelsDesc.putBoolean( charIDToTypeID( "PrsT" ), true );
   desc.putObject( charIDToTypeID( "With" ), charIDToTypeID( "Clcl" ), channelsDesc );
   executeAction( charIDToTypeID( "AppI" ), desc, DialogModes.NO );
-};
+};
 
 function SaveAsTIFF( inFileName, inLZW ) {
   var tiffSaveOptions = new TiffSaveOptions();
-  if ( inLZW ) {  
-    tiffSaveOptions.imageCompression = TIFFEncoding.TIFFLZW;  
+  if ( inLZW ) {
+    tiffSaveOptions.imageCompression = TIFFEncoding.TIFFLZW;
   }
-  else {  
-    tiffSaveOptions.imageCompression = TIFFEncoding.NONE;  
-  }   
+  else {
+    tiffSaveOptions.imageCompression = TIFFEncoding.NONE;
+  }
   app.activeDocument.saveAs( File( inFileName ), tiffSaveOptions );
+  // Close the documents no longer needed
   activeDocument.close(SaveOptions.DONOTSAVECHANGES);
   if (blueImage.length != 0){
     blueImage.close(SaveOptions.DONOTSAVECHANGES)
@@ -92,4 +59,4 @@ function SaveAsTIFF( inFileName, inLZW ) {
   if (redImage.length != 0){
     redImage.close(SaveOptions.DONOTSAVECHANGES)
   }
-};
+};
