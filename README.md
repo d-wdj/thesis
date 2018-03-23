@@ -1,3 +1,3 @@
 # Thesis  
 ltNES to Astrocytes  
-Här finns man scripts används.
+Här hittar man scripts används.
