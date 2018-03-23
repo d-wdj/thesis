@@ -1,28 +1,41 @@
 ﻿//~ Adapted from: https://forums.adobe.com/thread/1222258//~
-// make a reference to the savedFolder
-//~ var savedFolder = new Folder('~/Desktop/Merged Image');
-//~
-// create the folder if it doesn't exists
+
 // get the source folder from the user and store in variable
+// make a reference to the savedFolder
 var sourceFolder = Folder.selectDialog();
-var savedFolder = new Folder(sourceFolder + '/Merged');
+// create the folder if it doesn't exists
+var savedFolder = new Folder(sourceFolder + '/Merged');
 if(!savedFolder.exists) savedFolder.create();
-// get an array of red images and store in variable
-  var sourceFiles = sourceFolder.getFiles("*B5_b.jpg");
-  // make a loop to process all found sets.
-  for(var i = 0; i < sourceFiles.length;i++){
-    var blueName = sourceFiles[i].name;
-    var blueImage = open(sourceFiles[i]);
-    // open the red file and store reference to document
-    var redName = blueName.replace('_b.jpg','_r.jpg');
-    var redImage = open(new File(sourceFolder+'/'+redName));
-    // open the green file and store reference that document
-    applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
-    var greenName = blueName.replace('_b.jpg', '_g.jpg');
-    if ((new File(sourceFolder+'/'+greenName).exists)){
-      var greenImage = open(new File(sourceFolder+'/'+greenName));
-      applyChannel ( charIDToTypeID( "RGB " ), redImage.name);
-    SaveAsTIFF(savedFolder+'/'+blueName.replace(/_b\.jpg$/i,'_merged.tif'),true);
+// get an array of red images and store in variable.
+// In this case, the array grep is based on the Hoechst/nuclear staining as
+// it is the most likely to be present compared to the other Abs
+var sourceFiles = sourceFolder.getFiles("*_b.jpg");
+// make a loop to process all found sets.
+for(var i = 0; i < sourceFiles.length;i++){
+  // first, open the blue/reference file and store it as reference
+  var blueName = sourceFiles[i].name;
+  var blueImage = open(sourceFiles[i]);
+
+  // second, open the red/anti-Rabbit file as it is more common than the
+  // blue/anti-Mouse Abs.
+  var redName = blueName.replace('_b.jpg','_r.jpg');
+  var redImage = open(new File(sourceFolder+'/'+redName));
+
+  // before checking if green/anti-Mouse file exists, the red file is overlaid
+  // onto the Hoechst file
+  applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
+
+  // third, open the green file
+  var greenName = blueName.replace('_b.jpg', '_g.jpg');
+  if ((new File(sourceFolder+'/'+greenName).exists)){
+    var greenImage = open(new File(sourceFolder+'/'+greenName));
+    // the green image is overlaid onto the already overlaid red/blue file
+    applyChannel ( charIDToTypeID( "RGB " ), redImage.name);
+  }
+  // save the results onto another file called merge and close all
+  // opened files to conserve memory
+  SaveAsTIFF(savedFolder+'/'+blueName.replace(/_b\.jpg$/i,'_merged.tif'),true);
+}
 
 function applyChannel( channelID, documentName ){
   // charIDToTypeID( "RGB " )
@@ -56,7 +69,7 @@ function SaveAsTIFF( inFileName, inLZW ) {
   if (blueImage.length != 0){
     blueImage.close(SaveOptions.DONOTSAVECHANGES)
   }
-  if (redImage.length != 0){
-    redImage.close(SaveOptions.DONOTSAVECHANGES)
-  }
+//   if (redImage.length != 0){
+//     redImage.close(SaveOptions.DONOTSAVECHANGES)
+//   }
 };
