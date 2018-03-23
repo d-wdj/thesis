@@ -1,4 +1,5 @@
 ﻿//~ Adapted from: https://forums.adobe.com/thread/1222258//~
+// To be run on Adobe ExtendScript Toolkit with PS CS6 as the target.
 
 // get the source folder from the user and store in variable
 // make a reference to the savedFolder
@@ -15,23 +16,53 @@ for(var i = 0; i < sourceFiles.length;i++){
   // first, open the blue/reference file and store it as reference
   var blueName = sourceFiles[i].name;
   var blueImage = open(sourceFiles[i]);
+  var redName = blueName.replace('_b.jpg','_r.jpg');
+  var greenName = blueName.replace('_b.jpg', '_g.jpg');
 
   // second, open the red/anti-Rabbit file as it is more common than the
   // blue/anti-Mouse Abs.
-  var redName = blueName.replace('_b.jpg','_r.jpg');
-  var redImage = open(new File(sourceFolder+'/'+redName));
+  var redImage = new File(sourceFolder+'/'+redName);
+  var greenImage = new File(sourceFolder+'/'+greenName);
 
-  // before checking if green/anti-Mouse file exists, the red file is overlaid
-  // onto the Hoechst file
-  applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
+  // check if both exists
+  if (redImage.exists && greenImage.exists){
+    var redImage = open(redImage)
+    applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
+    var greenImage = open(greenImage)
+    applyChannel( charIDToTypeID( "RGB " ) , redImage.name );
+    if (redImage.length != 0){
+      redImage.close(SaveOptions.DONOTSAVECHANGES)
+    }
+  } else if (redImage.exists && !greenImage.exists){
+      var redImage = open(redImage)
+      applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
+    }
+    else if (!redImage.exists && greenImage.exists){
+      var greenImage = open(greenImage)
+      applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
+    }
 
-  // third, open the green file
-  var greenName = blueName.replace('_b.jpg', '_g.jpg');
-  if ((new File(sourceFolder+'/'+greenName).exists)){
-    var greenImage = open(new File(sourceFolder+'/'+greenName));
-    // the green image is overlaid onto the already overlaid red/blue file
-    applyChannel ( charIDToTypeID( "RGB " ), redImage.name);
-  }
+
+  // if (redImage.exists & ){
+  //   var redImage = open(redImage)
+  //   applyChannel( charIDToTypeID( "RGB " ), blueImage.name);
+  // }
+  //
+  // if (redImage.exists){
+  //   var redImage = open(redImage)
+  //   applyChannel( charIDToTypeID( "RGB " ), blueImage.name);
+  // }
+  //
+  // // before checking if green/anti-Mouse file exists, the red file is overlaid
+  // // onto the Hoechst file
+  // applyChannel( charIDToTypeID( "RGB " ) , blueImage.name );
+  //
+  // // third, open the green file
+  //
+  // if ((new File(sourceFolder+'/'+greenName).exists)){
+  //   var greenImage = open(new File(sourceFolder+'/'+greenName));
+  //   // the green image is overlaid onto the already overlaid red/blue file
+  //   applyChannel ( charIDToTypeID( "RGB " ), redImage.name);
   // save the results onto another file called merge and close all
   // opened files to conserve memory
   SaveAsTIFF(savedFolder+'/'+blueName.replace(/_b\.jpg$/i,'_merged.tif'),true);
