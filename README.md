@@ -4,8 +4,8 @@ Här hittar man scripts används.
 \*[Falk et al., 2012](http://dx.doi.org/10.1371/journal.pone.0029597)  
 
 ***
-*in vitro* neural systems lab | [Herland group](https://herlandlab.com/)  
-Dept. of Micro- and Nano-systems  
+[*in vitro* neural systems lab | Herland group](https://herlandlab.com/)  
+[Dept. of Micro- and Nano-systems](https://www.kth.se/mst/)  
 School of Electrical Engineering and Computer Science  
 KTH Royal Institute of Technology  
 (C) 2018  
