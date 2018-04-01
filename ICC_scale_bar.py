@@ -7,7 +7,7 @@ import glob, os
 wd = os.getcwd()
 ## Load the scale bar. In this case the 10x is loaded with a length of 200px
 ## which corresponds to 1 mm in length.
-scalebar = Image.open("../Cell_Lab/px200_10_scalebar_10x.tif")
+scalebar = Image.open("../Cell Lab/px200_10_scalebar_10x.tif")
 
 print ("Current directory: %s" % wd)
 
