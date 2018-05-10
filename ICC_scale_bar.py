@@ -1,13 +1,20 @@
 #!/usr/bin/env python3
 from PIL import Image
-import glob, os
+import glob, os, time, argparse
+
+## Set script such that it can also convert coloured images to BW.
+parser = argparse.ArgumentParser()
+parser.add_argument('-col','--colour', help='\'bw\' for grayscale image.',
+                    type=str, default='col')
+args = parser.parse_args()
+colour = args.colour
 
 ## Informs user about the current working directory as further cd commands
 ## are relative to this location.
 wd = os.getcwd()
 ## Load the scale bar. In this case the 10x is loaded with a length of 200px
-## which corresponds to 1 mm in length.
-scalebar = Image.open("../Cell Lab/px200_10_scalebar_10x.tif")
+## which corresponds to 100µm in length.
+scalebar = Image.open("px200_10_scalebar.tif")
 
 print ("Current directory: %s" % wd)
 
@@ -21,7 +28,10 @@ if loc[-1] != "/":
 os.chdir(loc)
 
 ## Globbing all the merged files
-merged = glob.glob("*merged*")
+## Using ** instructs function to search recursively
+merged = []
+for ext in ("*.jpg", "*.png", "*.tiff"):
+    merged.extend(glob.glob(os.path.join(loc, ext)))
 
 ## For 1320x1040, the following coordinates correspond to bottom-right
 ## corner with a small (but adequate margin).
@@ -30,11 +40,12 @@ position = (1150, 1000)
 ## Loop through the lists of merged files, add the scale bar and overwrite.
 for icc in merged:
     print ("Processing %s" % icc)
-    image = Image.open(icc)
+    if colour == 'bw':
+        image = Image.open(icc).convert('L')
+    else:
+        image = Image.open(icc)
     image.paste(scalebar, position)
     image.save(icc)
 
-
+print ("Processed {} images.".format(len(merged)))
 print ("Done!")
-
-# ~/Thesis/../Cell_Lab/NES/ICC_20180325/T2/Merged/

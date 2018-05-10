@@ -21,7 +21,8 @@ df = pd.read_excel("Data/TableS4-HumanMouseMasterFPKMList.xlsx", sheet_name=1,
 df = df.drop(["Gender"])
 
 goi = ['GFAP', 'VIM', 'NES', 'S100B', 'ALDH1A1', 'NFIA', 'HIF1A', 'CSPG4',
-    'TUBB3', 'SOX10', 'SOX9', 'SLC2A1', 'FABP7', 'CD44', 'SOX1']
+    'TUBB3', 'SOX10', 'SOX9', 'SLC2A1', 'FABP7', 'CD44', 'SOX1',
+    'SLC1A2', 'SLC1A3']
 
 names = []
 for i in range(1, len(df.T)+1):
@@ -59,7 +60,7 @@ dg_avg = dg.mean()
 dg_std = dg.std()
 
 print ("Plotting...")
-fig, ax = plt.subplots(figsize=(15/2.54, 18/2.54), tight_layout=True)
+fig, ax = plt.subplots(figsize=(20/2.54, 18/2.54), tight_layout=True)
 plt.xlabel("FPKM")
 dg_avg.plot.barh(xerr=dg_std, xlim=0, width=0.9, ax=ax)
 # plt.show()
