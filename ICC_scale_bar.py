@@ -12,8 +12,7 @@ colour = args.colour
 ## Informs user about the current working directory as further cd commands
 ## are relative to this location.
 wd = os.getcwd()
-## Load the scale bar. In this case the 10x is loaded with a length of 200px
-## which corresponds to 100µm in length.
+## Load the scale bar.
 scalebar = Image.open("px200_10_scalebar.tif")
 
 print ("Current directory: %s" % wd)
