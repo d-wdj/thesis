@@ -8,4 +8,4 @@ Här hittar man scripts används.
 [Dept. of Micro- and Nano-systems](https://www.kth.se/mst/)  
 School of Electrical Engineering and Computer Science  
 KTH Royal Institute of Technology  
-(C) 2018  
+(C) DAW 2018  
