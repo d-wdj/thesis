@@ -9,3 +9,6 @@ Keywords: human neural stem cell, astrocytes, cell differentiation, oxygen conce
 Commitment of Neuroepithelial Stem Cells". *Master's thesis for Molecular
 Techniques in Life Science*. KTH Royal Institute of Technology, Karolinska
 Institutet, Stockholm University, and Science for Life Laboratory.  
+
+***
+Return to [d-wdj.com](https://www.d-wdj.com/)
